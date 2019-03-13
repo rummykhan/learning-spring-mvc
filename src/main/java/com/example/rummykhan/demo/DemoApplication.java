@@ -8,12 +8,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ViewResolver;
+import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
 
-//https://stackoverflow.com/questions/1296235/jsp-tricks-to-make-templating-easier
+//
 
 @SpringBootApplication
 @Configuration
@@ -32,12 +34,14 @@ public class DemoApplication implements WebMvcConfigurer {
         resolver.setViewClass(JstlView.class);
         return resolver;
     }
-}
 
-@Controller
-class ExampleController {
-    @RequestMapping(path = "/hello-world", method = RequestMethod.GET)
-    public String example() {
-        return "hello-world";
+    @Override
+    public void addResourceHandlers(final ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("/resources/**").addResourceLocations("/resources/static/");
+    }
+
+    @Override
+    public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
+        configurer.enable();
     }
 }
