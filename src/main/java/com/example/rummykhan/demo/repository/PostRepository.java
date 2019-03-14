@@ -8,4 +8,6 @@ import java.util.Optional;
 public interface PostRepository extends CrudRepository<Post, Integer> {
 
     Optional<Post> findByTitle(String title);
+
+    Optional<Post> findBySlug(String slug);
 }
